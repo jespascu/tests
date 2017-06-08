@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<jdbc:embedded-database id="dataSource" type="HSQL">
+		<jdbc:script location="classpath:db/sql/create-db.sql" />
+		<jdbc:script location="classpath:db/sql/insert-data.sql" />
+	</jdbc:embedded-database>
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dbcpDataSource" />
+	</bean>
+
+	<bean id="dbcpDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:dataSource" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+</beans>

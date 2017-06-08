@@ -1,0 +1,1 @@
+INSERT INTO babies VALUES (1, 'jefazo', '0', '0');
